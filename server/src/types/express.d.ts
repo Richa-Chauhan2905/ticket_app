@@ -13,6 +13,7 @@ declare global {
         createdAt: Date | null;
         updatedAt: Date | null;
       };
+      file?: Express.Multer.File;
     }
   }
 }
