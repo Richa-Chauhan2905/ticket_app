@@ -1,5 +1,5 @@
 import { createServer } from "node:http";
-import { createApplication } from "./app/index.js";
+import { createApplication } from "./app/app.js";
 
 async function main() {
   try {
