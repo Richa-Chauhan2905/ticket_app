@@ -10,3 +10,9 @@ bookingRouter.post(
   restrictToAuthenticatedUser(),
   bookingController.createBooking.bind(bookingController),
 );
+
+bookingRouter.post(
+  "/verify-payment",
+  restrictToAuthenticatedUser(),
+  bookingController.verifyPayment.bind(bookingController),
+);

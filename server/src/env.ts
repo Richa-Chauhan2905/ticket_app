@@ -10,8 +10,8 @@ const envSchema = z.object({
   IMAGEKIT_PUBLIC_KEY: z.string(),
   IMAGEKIT_PRIVATE_KEY: z.string(),
   IMAGEKIT_URL_ENDPOINT: z.string(),
-//   RAZORPAY_KEY_ID: z.string(),
-//   RAZORPAY_KEY_SECRET: z.string(),
+  RAZORPAY_KEY_ID: z.string(),
+  RAZORPAY_KEY_SECRET: z.string(),
 });
 
 function createEnv(env: NodeJS.ProcessEnv) {
