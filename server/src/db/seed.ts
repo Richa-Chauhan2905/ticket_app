@@ -27,67 +27,69 @@ async function seed() {
     const adminPassword = await bcrypt.hash("Admin@123", 10);
     const userPassword = await bcrypt.hash("User@123", 10);
 
-    const [adminUser] = await db.insert(users).values({
+    const adminUserRes = await db.insert(users).values({
       name: "Admin User",
       email: "admin@ticketapp.com",
       password: adminPassword,
       role: "admin",
       isVerified: true
     }).returning();
+    const adminUser = adminUserRes[0]!;
 
-    const [normalUser] = await db.insert(users).values({
+    const normalUserRes = await db.insert(users).values({
       name: "John Doe",
       email: "user@ticketapp.com",
       password: userPassword,
       role: "user",
       isVerified: true
     }).returning();
+    const normalUser = normalUserRes[0]!;
 
     console.log(`Created users: \n- Admin: ${adminUser.email} (Admin@123)\n- User: ${normalUser.email} (User@123)`);
 
-    // 2. Create Movies
+    // 2. Create Movies (Bollywood movies with Wikipedia poster URLs)
     const moviesData = [
       {
-        title: "Inception",
-        description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.",
-        duration: 148,
-        language: "English",
-        posterUrl: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&auto=format&fit=crop&q=80"
+        title: "3 Idiots",
+        description: "Two friends are searching for their long lost companion. They revisit their college days and recall the memories of their friend who inspired them to think differently, even as the rest of the world called them idiots.",
+        duration: 170,
+        language: "Hindi",
+        posterUrl: "https://upload.wikimedia.org/wikipedia/en/d/df/3_idiots_poster.jpg"
       },
       {
-        title: "Interstellar",
-        description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.",
-        duration: 169,
-        language: "English",
-        posterUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=80"
+        title: "Zindagi Na Milegi Dobara",
+        description: "Three friends decide to turn their fantasy vacation into reality after one of them gets engaged.",
+        duration: 155,
+        language: "Hindi",
+        posterUrl: "https://upload.wikimedia.org/wikipedia/en/3/3d/Zindagi_Na_Milegi_Dobara_poster.jpg"
       },
       {
-        title: "The Dark Knight",
-        description: "When the menace known as the Joker wreaks havoc and chaos on the people of Gotham, Batman must accept one of the greatest psychological and physical tests of his ability to fight injustice.",
-        duration: 152,
-        language: "English",
-        posterUrl: "https://images.unsplash.com/photo-1509281373149-e957c6296406?w=500&auto=format&fit=crop&q=80"
+        title: "Dangal",
+        description: "Former wrestler Mahavir Singh Phogat and his two wrestler daughters struggle towards glory at the Commonwealth Games in the face of societal oppression.",
+        duration: 161,
+        language: "Hindi",
+        posterUrl: "https://upload.wikimedia.org/wikipedia/en/9/99/Dangal_Poster.jpg"
       },
       {
-        title: "Spirited Away",
-        description: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods, witches, and spirits, and where humans are changed into beasts.",
-        duration: 125,
-        language: "Japanese",
-        posterUrl: "https://images.unsplash.com/photo-1578632767115-351597cf2477?w=500&auto=format&fit=crop&q=80"
+        title: "Sholay",
+        description: "After his family is murdered by a notorious bandit, a former police officer hires two outlaws to capture him.",
+        duration: 204,
+        language: "Hindi",
+        posterUrl: "https://upload.wikimedia.org/wikipedia/en/5/52/Sholay-poster.jpg"
       },
       {
-        title: "Spider-Man: Into the Spider-Verse",
-        description: "Teen Miles Morales becomes the Spider-Man of his universe and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.",
-        duration: 117,
-        language: "English",
-        posterUrl: "https://images.unsplash.com/photo-1635805737707-575885ab0820?w=500&auto=format&fit=crop&q=80"
+        title: "Dilwale Dulhania Le Jayenge",
+        description: "When Raj meets Simran in Europe, it isn't love at first sight but when Simran moves to India for an arranged marriage, love finds its way.",
+        duration: 189,
+        language: "Hindi",
+        posterUrl: "https://upload.wikimedia.org/wikipedia/en/8/80/Dilwale_Dulhania_Le_Jayenge_poster.jpg"
       }
     ];
 
     const insertedMovies = [];
     for (const movie of moviesData) {
       const [m] = await db.insert(movies).values(movie).returning();
-      insertedMovies.push(m);
+      insertedMovies.push(m!);
     }
     console.log(`Inserted ${insertedMovies.length} movies.`);
 
@@ -101,94 +103,98 @@ async function seed() {
     const insertedTheatres = [];
     for (const theatre of theatresData) {
       const [t] = await db.insert(theatres).values(theatre).returning();
-      insertedTheatres.push(t);
+      insertedTheatres.push(t!);
     }
     console.log(`Inserted ${insertedTheatres.length} theatres.`);
 
     // 4. Create Screens
     // PVR gets Screen 1 and IMAX Screen
-    const [pvrS1] = await db.insert(screens).values({
-      theatreId: insertedTheatres[0].id,
+    const pvrS1Res = await db.insert(screens).values({
+      theatreId: insertedTheatres[0]!.id,
       name: "Screen 1",
       totalSeats: 30
     }).returning();
-    const [pvrS2] = await db.insert(screens).values({
-      theatreId: insertedTheatres[0].id,
+    const pvrS1 = pvrS1Res[0]!;
+
+    const pvrS2Res = await db.insert(screens).values({
+      theatreId: insertedTheatres[0]!.id,
       name: "IMAX Screen",
       totalSeats: 40
     }).returning();
+    const pvrS2 = pvrS2Res[0]!;
 
     // INOX gets Screen 1
-    const [inoxS1] = await db.insert(screens).values({
-      theatreId: insertedTheatres[1].id,
+    const inoxS1Res = await db.insert(screens).values({
+      theatreId: insertedTheatres[1]!.id,
       name: "Screen 1",
       totalSeats: 25
     }).returning();
+    const inoxS1 = inoxS1Res[0]!;
 
     // Cinepolis gets VIP Lounge
-    const [cineS1] = await db.insert(screens).values({
-      theatreId: insertedTheatres[2].id,
+    const cineS1Res = await db.insert(screens).values({
+      theatreId: insertedTheatres[2]!.id,
       name: "VIP Lounge",
       totalSeats: 20
     }).returning();
+    const cineS1 = cineS1Res[0]!;
 
     console.log("Inserted screens for theatres.");
 
     // 5. Create Shows (using ShowService so seats are populated automatically)
-    // Let's create shows spread over today, tomorrow, and day after tomorrow
     const baseDate = new Date();
     baseDate.setHours(10, 0, 0, 0); // Start at 10:00 AM
 
     const showsToCreate = [
-      // Inception shows
+      // 3 Idiots shows
       {
-        movieId: insertedMovies[0].id,
+        movieId: insertedMovies[0]!.id,
         screenId: pvrS1.id,
         startTime: new Date(baseDate.getTime() + 4 * 60 * 60 * 1000).toISOString(), // +4h
         price: 250
       },
       {
-        movieId: insertedMovies[0].id,
+        movieId: insertedMovies[0]!.id,
         screenId: inoxS1.id,
         startTime: new Date(baseDate.getTime() + 8 * 60 * 60 * 1000).toISOString(), // +8h
         price: 300
       },
-      // Interstellar shows
+      // ZNMD shows
       {
-        movieId: insertedMovies[1].id,
+        movieId: insertedMovies[1]!.id,
         screenId: pvrS2.id,
         startTime: new Date(baseDate.getTime() + 6 * 60 * 60 * 1000).toISOString(), // +6h
         price: 450
       },
       {
-        movieId: insertedMovies[1].id,
+        movieId: insertedMovies[1]!.id,
         screenId: cineS1.id,
         startTime: new Date(baseDate.getTime() + 32 * 60 * 60 * 1000).toISOString(), // Tomorrow +8h
         price: 550
       },
-      // The Dark Knight shows
+      // Dangal shows
       {
-        movieId: insertedMovies[2].id,
+        movieId: insertedMovies[2]!.id,
         screenId: pvrS2.id,
         startTime: new Date(baseDate.getTime() + 10 * 60 * 60 * 1000).toISOString(), // +10h
         price: 400
       },
       {
-        movieId: insertedMovies[2].id,
+        movieId: insertedMovies[2]!.id,
         screenId: inoxS1.id,
         startTime: new Date(baseDate.getTime() + 30 * 60 * 60 * 1000).toISOString(), // Tomorrow +6h
         price: 300
       },
-      // Spirited Away shows
+      // Sholay shows
       {
-        movieId: insertedMovies[3].id,
+        movieId: insertedMovies[3]!.id,
         screenId: cineS1.id,
         startTime: new Date(baseDate.getTime() + 5 * 60 * 60 * 1000).toISOString(), // +5h
         price: 350
       },
-      // Spider-Man shows
+      // DDLJ shows
       {
-        movieId: insertedMovies[4].id,
+        movieId: insertedMovies[4]!.id,
         screenId: pvrS1.id,
         startTime: new Date(baseDate.getTime() + 28 * 60 * 60 * 1000).toISOString(), // Tomorrow +4h
         price: 250
