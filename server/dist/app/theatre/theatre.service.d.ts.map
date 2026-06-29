@@ -1,0 +1,1 @@
+{"version":3,"file":"theatre.service.d.ts","sourceRoot":"","sources":["../../../src/app/theatre/theatre.service.ts"],"names":[],"mappings":"AAIA,KAAK,iBAAiB,GAAG;IACvB,IAAI,EAAE,MAAM,CAAC;IACb,QAAQ,EAAE,MAAM,CAAC;CAClB,CAAC;AAEF,cAAM,aAAa;IACX,aAAa,CAAC,IAAI,EAAE,iBAAiB;;;;;;;IAYrC,cAAc;;;;;;;IAId,cAAc,CAAC,EAAE,EAAE,MAAM;;;;;;;CAKhC;AAED,eAAe,aAAa,CAAC"}

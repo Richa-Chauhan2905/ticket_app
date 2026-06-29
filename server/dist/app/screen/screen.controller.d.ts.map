@@ -1,0 +1,1 @@
+{"version":3,"file":"screen.controller.d.ts","sourceRoot":"","sources":["../../../src/app/screen/screen.controller.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAIjD,cAAM,gBAAgB;IACpB,OAAO,CAAC,aAAa,CAAuB;IAE/B,YAAY,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;IAmBxC,mBAAmB,CAAC,GAAG,EAAE,OAAO,EAAE,GAAG,EAAE,QAAQ;CAc7D;AAED,eAAe,gBAAgB,CAAC"}

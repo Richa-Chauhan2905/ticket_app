@@ -13,23 +13,8 @@ import cors from "cors";
 export function createApplication(): Express {
   const app = express();
 
-  // Custom CORS middleware to allow local requests from the frontend
-  app.use(
-    cors({
-      origin: "https://ticket-app-rosy.vercel.app/",
-      credentials: true,
-    })
-  );
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-    res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-    if (req.method === "OPTIONS") {
-      res.sendStatus(200);
-      return;
-    }
-    next();
-  });
+  app.use(cors());
+
 
   app.use(express.json());
   app.use(urlencoded({ extended: true, limit: "5mb" }));

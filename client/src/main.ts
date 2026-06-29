@@ -73,7 +73,7 @@ const state = {
   pollIntervalId: null as any,
 };
 
-const API_BASE_URL = 'http://localhost:8080';
+const API_BASE_URL = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/$/, '');
 
 // Global DOM Container
 const appEl = document.querySelector<HTMLDivElement>('#app')!;

@@ -1,0 +1,1 @@
+{"version":3,"file":"screen.services.d.ts","sourceRoot":"","sources":["../../../src/app/screen/screen.services.ts"],"names":[],"mappings":"AAIA,KAAK,gBAAgB,GAAG;IACtB,SAAS,EAAE,MAAM,CAAC;IAClB,IAAI,EAAE,MAAM,CAAC;IACb,UAAU,EAAE,MAAM,CAAC;CACpB,CAAC;AAEF,cAAM,aAAa;IACX,YAAY,CAAC,IAAI,EAAE,gBAAgB;;;;;;;;IAanC,mBAAmB,CAAC,SAAS,EAAE,MAAM;;;;;;;;CAG5C;AAED,eAAe,aAAa,CAAC"}
