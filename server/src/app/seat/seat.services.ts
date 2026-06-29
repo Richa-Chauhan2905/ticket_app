@@ -17,6 +17,7 @@ class SeatService{
     }
 
     async lockSeats(userId: string, seatIds: string[]){
+        await this.releaseExpiryLocks();
         const now = new Date();
         const lockExpiry = new Date(now.getTime() - 5 * 60 * 1000);
 
@@ -82,6 +83,7 @@ class SeatService{
     }
 
     async getSeatsByShow(showId: string){
+        await this.releaseExpiryLocks();
         return db.select().from(seats).where(eq(seats.showId, showId))
     }
 }
