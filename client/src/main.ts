@@ -81,7 +81,7 @@ const appEl = document.querySelector<HTMLDivElement>('#app')!;
 // Helper functions for API calls
 async function apiFetch(path: string, options: RequestInit = {}) {
   const headers: HeadersInit = {};
-  
+
   if (!(options.body instanceof FormData)) {
     headers['Content-Type'] = 'application/json';
   }
@@ -559,22 +559,22 @@ async function openMovieDetail(movie: Movie) {
         </div>
         <div class="showtimes-list-col">
           ${group.shows.map((show) => {
-            const timeString = new Date(show.startTime).toLocaleTimeString([], {
-              hour: '2-digit',
-              minute: '2-digit',
-            });
-            const dateString = new Date(show.startTime).toLocaleDateString([], {
-              month: 'short',
-              day: 'numeric',
-            });
-            return `
+      const timeString = new Date(show.startTime).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      });
+      const dateString = new Date(show.startTime).toLocaleDateString([], {
+        month: 'short',
+        day: 'numeric',
+      });
+      return `
               <button class="showtime-pill" data-id="${show.id}">
                 <span class="showtime-time">${timeString}</span>
                 <span class="showtime-price">₹${show.price}</span>
                 <span class="showtime-screen">${dateString} • ${show.screen.name}</span>
               </button>
             `;
-          }).join('')}
+    }).join('')}
         </div>
       </div>
     `).join('');
@@ -678,7 +678,7 @@ async function renderSeatMap() {
   try {
     const response = await apiFetch(`/seats/${show.id}`);
     const rawSeats: Seat[] = response.data;
-    
+
     // Sort seats by seatNumber so grid aligns rows correctly
     // If seats are numbers (e.g. "0", "1", "2"), sort numerically.
     rawSeats.sort((a, b) => parseInt(a.seatNumber, 10) - parseInt(b.seatNumber, 10));
@@ -690,14 +690,14 @@ async function renderSeatMap() {
     if (content) content.style.display = 'block';
 
     const grid = document.querySelector('#seats-grid-element') as HTMLDivElement;
-    
+
     // We adjust grid column layout depending on total seats
     const colsCount = 10; // Seeder creates 30, 40 etc. so 10 cols is a clean default.
     grid.style.gridTemplateColumns = `repeat(${colsCount}, 1fr)`;
 
     grid.innerHTML = state.seats.map((seat) => {
       let statusClass = seat.status; // available, locked, booked
-      
+
       // Highlight seat index labels
       const label = parseInt(seat.seatNumber, 10) + 1;
 
@@ -716,7 +716,7 @@ async function renderSeatMap() {
     document.querySelectorAll('.seat.available').forEach((seatBtn) => {
       seatBtn.addEventListener('click', () => {
         const seatId = seatBtn.getAttribute('data-id')!;
-        
+
         if (state.selectedSeats.has(seatId)) {
           state.selectedSeats.delete(seatId);
           seatBtn.classList.remove('selected');
@@ -731,7 +731,7 @@ async function renderSeatMap() {
 
         countText.textContent = `${count} Seat${count !== 1 ? 's' : ''} Selected`;
         totalText.textContent = `₹${total}`;
-        
+
         if (count > 0) {
           payBtn.removeAttribute('disabled');
         } else {
@@ -747,7 +747,7 @@ async function renderSeatMap() {
 
       try {
         const seatIdsArray = Array.from(state.selectedSeats);
-        
+
         // 1. Create booking (locks seats & returns order details)
         const bookingResponse = await apiFetch('/bookings/create', {
           method: 'POST',
@@ -758,7 +758,7 @@ async function renderSeatMap() {
         });
 
         state.bookingResult = bookingResponse;
-        
+
         // 2. Load Razorpay Checkout modal
         const razorpayOptions = {
           key: 'rzp_test_T6KtTmNiboogPM', // Test key from server env
@@ -1130,7 +1130,7 @@ async function renderAdmin() {
   movieForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     movieFeedback.style.display = 'none';
-    
+
     const title = (document.querySelector('#m-title') as HTMLInputElement).value;
     const description = (document.querySelector('#m-desc') as HTMLTextAreaElement).value;
     const duration = (document.querySelector('#m-duration') as HTMLInputElement).value;
@@ -1214,7 +1214,7 @@ async function renderAdmin() {
   showForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     showFeedbackEl.style.display = 'none';
-    
+
     const movieId = (document.querySelector('#sh-movie') as HTMLSelectElement).value;
     const screenId = (document.querySelector('#sh-screen') as HTMLSelectElement).value;
     const timeLocal = (document.querySelector('#sh-time') as HTMLInputElement).value;
@@ -1237,7 +1237,7 @@ async function renderAdmin() {
   // Screen selector auto-enable inside show scheduler
   const shTheatreSelect = document.querySelector('#sh-theatre') as HTMLSelectElement;
   const shScreenSelect = document.querySelector('#sh-screen') as HTMLSelectElement;
-  
+
   shTheatreSelect.addEventListener('change', async () => {
     const theatreId = shTheatreSelect.value;
     shScreenSelect.innerHTML = '<option value="">-- Choose Screen --</option>';
@@ -1289,7 +1289,7 @@ async function loadAdminDropdowns() {
     // Fetch theatres
     const resTheatres = await apiFetch('/theatre/get-all-theatres');
     state.theatres = resTheatres.data;
-    
+
     // Fetch movies
     const resMovies = await apiFetch('/movies/get-all-movie');
     state.movies = resMovies.data;
